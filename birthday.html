@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Best Friend</title>
+    <style>
+        /* Global Reset and Elegant Background Layout */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff3f3 0%, #fff9f0 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Hidden Checkbox for Flipping Pages */
+        #page-toggle {
+            display: none;
+        }
+
+        /* 3D Viewport Box */
+        .card-wrapper {
+            width: 90%;
+            max-width: 440px;
+            height: 560px;
+            perspective: 1500px;
+        }
+
+        /* Container holding Page 1 and Page 2 */
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 15px 35px rgba(180, 140, 140, 0.15);
+            border-radius: 24px;
+        }
+
+        /* Action: Spin the container when clicked */
+        #page-toggle:checked + .card-wrapper .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* General rules for both cards */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 24px;
+            padding: 45px 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: white;
+            border: 1px solid rgba(230, 200, 200, 0.4);
+        }
+
+        /* =========================================
+           STYLES FOR PAGE 1 (FRONT COVER) 
+        ========================================= */
+        .page-front {
+            z-index: 2;
+            transform: rotateY(0deg);
+            background: linear-gradient(to bottom, #ffffff, #fffdfb);
+        }
+
+        .heart-glow {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            color: #d4a373;
+            animation: softGlow 2.5s infinite ease-in-out;
+        }
+
+        @keyframes softGlow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.06); opacity: 1; filter: drop-shadow(0 0 8px rgba(212,163,115,0.3)); }
+        }
+
+        h1 {
+            color: #5c4d4d;
+            font-size: 2.1rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .date-marker {
+            color: #bfa285;
+            font-size: 0.95rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        p {
+            font-family: 'Segoe UI', sans-serif;
+            color: #7a6e6e;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        .action-label {
+            background: #cdb4db;
+            background: linear-gradient(135deg, #e8a598 0%, #d88c8a 100%);
+            color: white;
+            padding: 14px 40px;
+            border-radius: 50px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(232, 165, 152, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .action-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(232, 165, 152, 0.5);
+        }
+
+
+        /* =========================================
+           STYLES FOR PAGE 2 (ELEGANT REVEAL) 
+        ========================================= */
+        .page-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(to bottom, #ffffff, #fffbf7);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .warm-heading {
+            color: #bd8a78;
+            font-size: 1.9rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+
+        .warm-message {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: #6e6161;
+            line-height: 1.8;
+            margin-bottom: 35px;
+        }
+
+        /* Minimal Single Selfie Frame */
+        .selfie-box {
+            width: 100%;
+            max-width: 280px;
+            margin-bottom: 30px;
+        }
+
+        .selfie-hyperlink {
+            display: block;
+            padding: 22px 15px;
+            background: #fffcf9;
+            color: #bd8a78;
+            text-decoration: none;
+            border-radius: 16px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            border: 1px solid #f2dfd7;
+            box-shadow: 0 4px 12px rgba(189, 138, 120, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .selfie-hyperlink:hover {
+            background: #bd8a78;
+            color: white;
+            border-color: #bd8a78;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(189, 138, 120, 0.2);
+        }
+
+        .selfie-icon {
+            font-size: 1.4rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .action-label.back-btn {
+            background: transparent;
+            color: #a89494;
+            border: 1px solid #e0d5d5;
+            box-shadow: none;
+            padding: 8px 22px;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        .action-label.back-btn:hover {
+            background: #faf6f6;
+            color: #7a6e6e;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* SPECIAL EFFECTS: Slow Floating Warm Gold Dust */
+        .stardust-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .spark {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #f3d5b5;
+            border-radius: 50%;
+            top: 100%;
+            opacity: 0;
+            animation: floatUp 6s infinite linear;
+        }
+
+        /* Elegant, slow wandering stardust paths */
+        .spark:nth-child(1) { left: 15%; animation-delay: 0s; animation-duration: 5.5s; width: 5px; height: 5px; }
+        .spark:nth-child(2) { left: 40%; animation-delay: 1.8s; animation-duration: 7s; }
+        .spark:nth-child(3) { left: 70%; animation-delay: 0.5s; animation-duration: 6.2s; width: 6px; height: 6px; }
+        .spark:nth-child(4) { left: 85%; animation-delay: 3.2s; animation-duration: 5s; }
+        .spark:nth-child(5) { left: 25%; animation-delay: 4s; animation-duration: 6.5s; }
+        .spark:nth-child(6) { left: 55%; animation-delay: 2.5s; animation-duration: 5.8s; width: 3px; height: 3px; }
+
+        @keyframes floatUp {
+            0% { top: 105%; transform: translateX(0); opacity: 0; }
+            15% { opacity: 0.7; }
+            85% { opacity: 0.7; }
+            100% { top: -5%; transform: translateX(25px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hidden Trigger Checkbox -->
+    <input type="checkbox" id="page-toggle">
+
+    <div class="card-wrapper">
+        <div class="card-inner">
+            
+            <!-- ========================================================
+               PAGE 1: FRONT COVER
+            ======================================================== -->
+            <div class="page page-front">
+                <div class="heart-glow">✦</div>
+                <h1>A Little Space for You</h1>
+                <div class="date-marker">August 20th</div>
+                <p>I wanted to save a beautiful moment just for us. Whenever you are ready, step inside.</p>
+                
+                <label for="page-toggle" class="action-label">Open Box</label>
+            </div>
+
+
+            <!-- ========================================================
+               PAGE 2: ELEGANT REVEAL & WARM EFFECTS 
+            ======================================================== -->
+            <div class="page page-back">
+                
+                <!-- Floating Warm Stardust Layer -->
+                <div class="stardust-overlay">
+                    <div class="spark"></div>
+                    <div class="spark"></div>
+                    <div class="spark"></div>
+                    <div class="spark"></div>
+                    <div class="spark"></div>
+                    <div class="spark"></div>
+                </div>
+
+                <!-- Main Warm Message -->
+                <h1 class="warm-heading">Happy August 20th</h1>
+                <p class="warm-message">
+                    "Thank you for being the calm in my chaos, the laugh when I need it most, and the best friend anyone could ever ask for. Here is my absolute favorite picture of us."
+                </p>
+
+                <!-- Single Elegant Selfie Hyperlink -->
+                <div class="selfie-box">
+                    <a href="our-selfie.html" target="_blank" class="selfie-hyperlink">
+                        <span class="selfie-icon">✨</span>
+                        Our Favorite Selfie
+                    </a>
+                </div>
+
+                <!-- Return Option -->
+                <label for="page-toggle" class="action-label back-btn">Go back</label>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
